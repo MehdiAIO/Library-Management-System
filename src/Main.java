@@ -47,27 +47,30 @@ public class Main {
     public static void mainMenu() {
         boolean condition = true;
         do {
-            System.out.println("1. Login as Member");
-            System.out.println("2. Login as Librarian");
-            System.out.println("3. Exit");
+            System.out.println("1. Create an account");
+            System.out.println("2. Login as Member");
+            System.out.println("3. Login as Librarian");
+            System.out.println("4. Exit");
 
             int decision = keyboard.nextInt();
             keyboard.nextLine();
 
             switch (decision) {
                 case 1:
+                    createAccount();
+                    break;
+                case 2:
                     try {
                         Member member = memberAuth();
                         memberMenu(member);
                     } catch (InvalidUserException e) {
                         System.out.println(e.getMessage());
-                        continue;
                     } catch (InputMismatchException e) {
                         System.out.println("Please enter a valid number for ID!");
                         keyboard.nextLine();
                     }
                     break;
-                case 2:
+                case 3:
                     try {
                         Librarian librarian = librarianAuth();
                         librarianMenu(librarian);
@@ -78,7 +81,7 @@ public class Main {
                         keyboard.nextLine();
                     }
                     break;
-                case 3:
+                case 4:
                     condition = false;
                     break;
                 default:
@@ -87,6 +90,33 @@ public class Main {
 
         } while (condition);
     }
+
+    public static void createAccount() {
+        boolean condition = true;
+        while (condition){
+            try {
+                System.out.println("Enter the ID : ");
+                int newId = keyboard.nextInt();
+                keyboard.nextLine();
+                System.out.println("Enter the name : ");
+                String newName = keyboard.nextLine();
+
+                Member newMember = new Member(newId, newName);
+                MembersManagement.addMember(newMember);
+
+                System.out.println("The account is created!");
+                condition = false; // ✅ only exits if everything succeeds
+
+            } catch (InputMismatchException e) {
+                System.out.println("Please type a valid ID!");
+                keyboard.nextLine(); // clear buffer
+            } catch (InvalidUserException e) {
+                System.out.println(e.getMessage());
+                // loop continues, so user can try again
+            }
+        }
+    }
+
 
     public static Member memberAuth() throws InvalidUserException {
         System.out.println("Enter the ID :");
@@ -171,6 +201,7 @@ public class Main {
                                 member.returnBook(book);
                                 System.out.println("The book has been returned");
                                 MembersManagement.updateMember(member);
+                                BooksManagement.saveBooks(borrowedBooks);
                                 returned = true;
                                 break;
                             }
@@ -237,9 +268,13 @@ public class Main {
                             price = keyboard.nextDouble();
                             keyboard.nextLine(); // clear buffer
                             validPrice = true;
+                            newBook = new Book(title,author,isbn,category,price);
+                            BooksManagement.addBook(newBook);
                         } catch (InputMismatchException e) {
                             System.out.println("Invalid price. Please enter a number:");
                             keyboard.nextLine(); // clear the invalid input
+                        } catch (BookNotAvailableException e) {
+                            System.out.println(e.getMessage());
                         }
                     }
 

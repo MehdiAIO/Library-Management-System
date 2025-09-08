@@ -1,5 +1,6 @@
 package storage;
 
+import exceptions.InvalidUserException;
 import models.Member;
 
 import java.io.*;
@@ -26,8 +27,13 @@ public class MembersManagement {
         return members;
     }
 
-    public static void addMember(Member member) {
+    public static void addMember(Member member) throws InvalidUserException {
         ArrayList<Member> members = loadMembers();
+        for(Member m : members){
+           if(m.getId() == member.getId()){
+               throw new InvalidUserException("this user already exists");
+           }
+        }
         members.add(member);
         saveMembers(members);
     }

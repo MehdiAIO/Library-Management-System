@@ -1,5 +1,6 @@
 package storage;
 
+import exceptions.BookNotAvailableException;
 import models.Book;
 import models.Member;
 
@@ -28,8 +29,17 @@ public class BooksManagement {
         return loadedBooks;
     }
 
-    public static void addBook(Book book) {
+    public static void addBook(Book book) throws BookNotAvailableException {
         ArrayList<Book> books = loadBooks();
+
+        for (Book b : books) {
+            if (b.getIsbn().equals(book.getIsbn())) {
+                throw new BookNotAvailableException(
+                        "Book with ISBN " + book.getIsbn() + " already exists!"
+                );
+            }
+        }
+
         books.add(book);
         saveBooks(books);
     }
