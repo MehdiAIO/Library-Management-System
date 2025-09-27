@@ -25,12 +25,12 @@ public class Main {
 //        MembersManagement.saveMembers(arrayList);
 
 //        ArrayList<Book> books = new ArrayList<>();
-
-//        books.add(new Book("The Hobbit", "J.R.R. Tolkien", "978-0547928227", "Fantasy", 15.99, false));
-//        books.add(new Book("1984", "George Orwell", "978-0451524935", "Dystopian", 12.50, false));
-//        books.add(new Book("Clean Code", "Robert C. Martin", "978-0132350884", "Programming", 35.00, false));
-//        books.add(new Book("Atomic Habits", "James Clear", "978-0735211292", "Self-help", 18.99, false));
-//        books.add(new Book("The Alchemist", "Paulo Coelho", "978-0061122415", "Fiction", 10.99, false));
+//
+//        books.add(new Book("The Hobbit", "J.R.R. Tolkien", "978-0547928227", "Fantasy", 15.99));
+//        books.add(new Book("1984", "George Orwell", "978-0451524935", "Dystopian", 12.50));
+//        books.add(new Book("Clean Code", "Robert C. Martin", "978-0132350884", "Programming", 35.00));
+//        books.add(new Book("Atomic Habits", "James Clear", "978-0735211292", "Self-help", 18.99));
+//        books.add(new Book("The Alchemist", "Paulo Coelho", "978-0061122415", "Fiction", 10.99));
 //
 //        BooksManagement.saveBooks(books);
 
@@ -201,7 +201,7 @@ public class Main {
                                 member.returnBook(book);
                                 System.out.println("The book has been returned");
                                 MembersManagement.updateMember(member);
-                                BooksManagement.saveBooks(borrowedBooks);
+                                BooksManagement.updateBook(book);
                                 returned = true;
                                 break;
                             }
